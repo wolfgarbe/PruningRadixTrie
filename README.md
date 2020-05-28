@@ -22,8 +22,8 @@ The PruningRadixTrie can be used for auto completion, query completion
 
 ### Performance
 
-Pruning  Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in     **51 ms**<br>
-Ordinary Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in **37.226 ms**
+Pruning  Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in  **0.05 ms**<br>
+Ordinary Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in **37.22 ms**
 
 **The PruningRadixTrie is 700x faster**
 
