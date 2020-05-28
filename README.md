@@ -1,5 +1,5 @@
 PruningRadixTrie<br> 
-[![MIT License](https://img.shields.io/github/license/wolfgarbe/pruningradixtrie.svg)](https://github.com/wolfgarbe/PruningRadixTrie/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/github/license/wolfgarbe/pruningradixtrie.png)](https://github.com/wolfgarbe/PruningRadixTrie/blob/master/LICENSE)
 ========
 **PruningRadixTrie - a Radix Trie on steroids**
 
