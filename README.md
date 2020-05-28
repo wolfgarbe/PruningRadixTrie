@@ -5,7 +5,7 @@ PruningRadixTrie<br>
 
 The PruningRadixTrie is a novel data structure, derived from a radix trie - but 3 orders of magnitude faster.
 
-A [Radix Trie](https://en.wikipedia.org/wiki/Radix_tree) or Patricia Trie is a space-optimized trie (prefix tree).
+A [Radix Trie](https://en.wikipedia.org/wiki/Radix_tree) or Patricia Trie is a space-optimized trie (prefix tree).<br>
 A **Pruning Radix trie** is a novel Radix trie algorithm, that allows a pruning of the Radix trie and early termination of the lookup.
 
 In many cases we are not interested in a complete set of all childs for a given prefix, but only in the top-k most relevant terms.
