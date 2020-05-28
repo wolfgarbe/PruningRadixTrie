@@ -318,12 +318,13 @@ namespace PruningRadixTrie
             long prefixCount2 = 0;
             Stopwatch sw = Stopwatch.StartNew();
 
-            for (int loop = 0; loop < 1000; loop++)
+            int rounds = 1000;
+            for (int loop = 0; loop < rounds; loop++)
             {
                 results2.Clear();
                 suggestionRadixtrie.FindAllChildTerms("a", 10, ref prefixCount2, "", results2);
             }
-            Console.WriteLine("search top-10 results for prefix 'a' in "+ suggestionRadixtrie.termCount.ToString("N0")+" terms in " + sw.ElapsedMilliseconds.ToString("N0") + " ms");
+            Console.WriteLine("search top-10 results for prefix 'a' in "+ suggestionRadixtrie.termCount.ToString("N0")+" terms in " + ((double)sw.ElapsedMilliseconds/(double)rounds).ToString("N2") + " ms");
             foreach ((string,long) result in results2) Console.WriteLine(result.Item1+" "+result.Item2.ToString("N0"));
 
             Console.WriteLine("press key to exit.");
