@@ -14,6 +14,8 @@ On the other hand, a complete result set of millions of suggestions wouldnt be h
 This is achieved by storing in each node the maximum rank of all its childs. By comparing this maximum child rank with the lowest rank of the results retrieved so far, 
 we can easily prune the trie and do an early termination of the look up for non-promising branches with low child ranks.
 
+***
+
 ### Application:
 
 PruningRadixTrie can be used for auto completion, query completion
