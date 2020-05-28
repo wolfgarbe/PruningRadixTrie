@@ -18,7 +18,7 @@ we can easily prune the trie and do an early termination of the look up for non-
 
 ### Application:
 
-PruningRadixTrie can be used for auto completion, query completion
+The PruningRadixTrie can be used for auto completion, query completion
 
 ### Performance
 
