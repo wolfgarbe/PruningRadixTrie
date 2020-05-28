@@ -38,3 +38,8 @@ While 37 ms for an autocomplete might seem fast enough for a single user, it bec
 **WriteTermsToFile:** Serialise the Pruning Radix Trie to disk for persistence.
 
 **ReadTermsFromFile:** Deserialise the Pruning Radix Trie from disk for persistence.
+
+
+### Dictionary
+
+Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia, together with term frequency counts used for ranking
