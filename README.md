@@ -10,7 +10,7 @@ A **Pruning Radix trie** is a novel Radix trie algorithm, that allows pruning of
 
 In many cases, we are not interested in a complete set of all children for a given prefix, but only in the top-k most relevant terms.
 Especially for short prefixes, this results in a **massive reduction of lookup time** for the top-10 results.
-On the other hand, a complete result set of millions of suggestions wouldn't be helpful at all for autocompletion.<br>
+On the other hand, a complete result set of millions of suggestions wouldn't be helpful at all for autocompletion.<br><br>
 The lookup acceleration is achieved by storing in each node the maximum rank of all its children. By comparing this maximum child rank with the lowest rank of the results retrieved so far, we can easily prune the trie and do early termination of the lookup for non-promising branches with low child ranks.
 
 ***
