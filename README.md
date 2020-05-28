@@ -42,4 +42,4 @@ While 37 ms for an autocomplete might seem fast enough for a single user, it bec
 
 ### Dictionary
 
-Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia, together with term frequency counts used for ranking
+Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia, with term frequency counts used for ranking
