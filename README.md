@@ -47,6 +47,5 @@ Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia
 #### Blog Posts: Algorithm, Benchmarks, Applications
 [The Pruning Radix Trie — a Radix trie on steroids](https://medium.com/@wolfgarbe/the-pruning-radix-trie-a-radix-trie-on-steroids-412807f77abc)<br>
 [1000x Faster Spelling Correction algorithm](https://medium.com/@wolfgarbe/1000x-faster-spelling-correction-algorithm-2012-8701fcd87a5f)<br>
-[SymSpell vs. BK-tree: 100x faster fuzzy string search & spell checking](https://medium.com/@wolfgarbe/symspell-vs-bk-tree-100x-faster-fuzzy-string-search-spell-checking-c4f10d80a078)<br>
-[Fast Word Segmentation for noisy text](https://towardsdatascience.com/fast-word-segmentation-for-noisy-text-2c2c41f9e8da)<br>
+[SymSpell vs. BK-tree: 100x faster fuzzy string search & spell checking](https://medium.com/@wolfgarbe/symspell-vs-bk-tree-100x-faster-fuzzy-string-search-spell-checking-c4f10d80a078)
 
