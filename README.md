@@ -17,7 +17,7 @@ The lookup acceleration is achieved by storing in each node the maximum rank of 
 
 ### Application:
 
-The PruningRadixTrie can be used for auto-completion, query completion
+The Pruning Radix Trie can be used for auto-completion and query completion.
 
 ### Performance
 
@@ -25,7 +25,7 @@ The PruningRadixTrie can be used for auto-completion, query completion
 <br><br>
 The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie.
 
-While 36 ms for an autocomplete might seem fast enough for a single user, it becomes a completely different story if we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries become only feasible when powered by something much faster than an ordinary radix trie.
+While 36 ms for an autocomplete might seem fast enough for a single user, it becomes insufficient when we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries are only feasible when powered by something much faster than an ordinary radix trie.
 
 
 ### Operations: 
