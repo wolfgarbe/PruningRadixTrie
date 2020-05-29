@@ -25,9 +25,7 @@ The PruningRadixTrie can be used for auto-completion, query completion
 <br><br>
 The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie.
 
-**The PruningRadixTrie is 700x faster**
-
-While 37 ms for an autocomplete might seem fast enough for a single user, it becomes a completely different story if we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries become only feasible when powered by something much faster than an ordinary radix trie.
+While 36 ms for an autocomplete might seem fast enough for a single user, it becomes a completely different story if we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries become only feasible when powered by something much faster than an ordinary radix trie.
 
 
 ### Operations: 
