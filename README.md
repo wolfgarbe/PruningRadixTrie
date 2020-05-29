@@ -17,7 +17,7 @@ The lookup acceleration is achieved by storing in each node the maximum rank of 
 
 ### Application:
 
-The Pruning Radix Trie can be used for auto-completion and query completion.
+The Pruning Radix Trie can be used for auto-completion, query completion or any other prefix search in large dictionaries.
 
 ### Performance
 
