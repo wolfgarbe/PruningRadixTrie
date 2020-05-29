@@ -21,6 +21,11 @@ The PruningRadixTrie can be used for auto-completion, query completion
 
 ### Performance
 
+The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie.
+
+![Benchmark](https://miro.medium.com/max/1400/1*pbE25qHjArliCZVw8-wKNQ.png "Benchmark")
+<br><br>
+
 Pruning  Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in  **0.05 ms**<br>
 Ordinary Radix Trie: search top-10 results for prefix 'a' in 6.273.234 terms in **37.22 ms**
 
