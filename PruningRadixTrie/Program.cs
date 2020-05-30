@@ -149,17 +149,17 @@ namespace PruningRadixTrie
             catch (Exception e) { Console.WriteLine("exception: " + s + " " + e.Message); }
         }
 
-        public void FindAllChildTerms(String prefix, int topK, ref long prefixCount, string prefixString, List<(string, long)> results)
+        public void FindAllChildTerms(String prefix, int topK, ref long prefixCount, string prefixString, List<(string, long)> results, bool pruning)
         {
-            FindAllChildTerms(prefix, trie, topK, ref prefixCount, prefixString, results, null);
+            FindAllChildTerms(prefix, trie, topK, ref prefixCount, prefixString, results, null,pruning);
         }
 
-        public void FindAllChildTerms(String prefix, Node curr, int topK, ref long prefixCount, string prefixString, List<(string, long)> results, System.IO.StreamWriter file)
+        public void FindAllChildTerms(String prefix, Node curr, int topK, ref long prefixCount, string prefixString, List<(string, long)> results, System.IO.StreamWriter file, bool pruning)
         {
             try
             {
                 //pruning/early termination in radix trie lookup
-                if ((topK > 0) && (results.Count == topK) && (curr.wordCountChildMax <= results[topK - 1].Item2)) return;
+                if (pruning && (topK > 0) && (results.Count == topK) && (curr.wordCountChildMax <= results[topK - 1].Item2)) return;
 
                 //test for common prefix (with possibly different suffix)
                 string oldKey = "";
@@ -170,7 +170,7 @@ namespace PruningRadixTrie
                     {
 
                         //pruning/early termination in radix trie lookup
-                        if ((topK > 0) && (results.Count == topK) && (kvp.Item2.wordCount <= results[topK - 1].Item2) && (kvp.Item2.wordCountChildMax <= results[topK - 1].Item2))
+                        if (pruning && (topK > 0) && (results.Count == topK) && (kvp.Item2.wordCount <= results[topK - 1].Item2) && (kvp.Item2.wordCountChildMax <= results[topK - 1].Item2))
                         {
                             if (!noPrefix) break; else continue;
                         }
@@ -189,13 +189,13 @@ namespace PruningRadixTrie
                                 if (topK > 0) AddTopKSuggestion(prefixString + oldKey, oldNode.wordCount, topK, ref results); else results.Add((prefixString + oldKey, oldNode.wordCount));
                             }
 
-                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms("", oldNode, topK, ref prefixCount, prefixString + oldKey, results, file);
+                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms("", oldNode, topK, ref prefixCount, prefixString + oldKey, results, file,pruning);
                             if (!noPrefix) break;
                         }
                         else if (prefix.StartsWith(oldKey))
                         {
 
-                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms(prefix.Substring(oldKey.Length), oldNode, topK, ref prefixCount, prefixString + oldKey, results, file);
+                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms(prefix.Substring(oldKey.Length), oldNode, topK, ref prefixCount, prefixString + oldKey, results, file,pruning);
                             break;
                         }
                     }
@@ -204,13 +204,13 @@ namespace PruningRadixTrie
             catch (Exception e) { Console.WriteLine("exception: " + prefix + " " + e.Message); }
         }
 
-        public List<(string, long)> GetTermsForPrefix(String prefix, int topK, out long prefixCount)
+        public List<(string, long)> GetTermsForPrefix(String prefix, int topK, out long prefixCount, bool pruning)
         {
             List<(string, long)> results = new List<(string, long)>();
             prefixCount = 0;
 
             // At the end of the prefix, find all child words
-            FindAllChildTerms(prefix, topK, ref prefixCount, "", results);
+            FindAllChildTerms(prefix, topK, ref prefixCount, "", results,pruning);
 
             return results;
         }
@@ -225,9 +225,9 @@ namespace PruningRadixTrie
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(path))
                 {
                     long prefixCount = 0;
-                    FindAllChildTerms("", trie, 0, ref prefixCount, "", null, file);
+                    FindAllChildTerms("", trie, 0, ref prefixCount, "", null, file,true);
                 }
-                Console.WriteLine("auto complete: " + termCount.ToString("N0") + " terms written.");
+                Console.WriteLine(termCount.ToString("N0") + " terms written.");
             }
             catch (Exception e)
             {
@@ -239,7 +239,7 @@ namespace PruningRadixTrie
         {
             if (!System.IO.File.Exists(path))
             {
-                Console.WriteLine("auto complete: Could not find file " + path);
+                Console.WriteLine("Could not find file " + path);
                 return false;
             }
             try
@@ -267,7 +267,7 @@ namespace PruningRadixTrie
                     }
                 }
                 termCountLoaded = termCount;
-                Console.WriteLine("auto complete: " + termCount.ToString("N0") + " terms loaded in " + sw1.ElapsedMilliseconds.ToString("N0") + " ms");
+                Console.WriteLine(termCount.ToString("N0") + " terms loaded in " + sw1.ElapsedMilliseconds.ToString("N0") + " ms");
             }
             catch (Exception e)
             {
@@ -306,26 +306,49 @@ namespace PruningRadixTrie
 
     class Program
     {
-        public static void test()
+        public static void Benchmark()
         {
             string path = "terms.txt";
+            Console.WriteLine("Load dictionary & create trie ...");
             AutocompleteRadixtrie suggestionRadixtrie = new AutocompleteRadixtrie();
             suggestionRadixtrie.ReadTermsFromFile(path);
+            Console.WriteLine("Benchmark started ...");
 
-            Console.WriteLine("index read & created");
-
-            List<(string, long)> results2 = new List<(string, long)>();
-            long prefixCount2 = 0;
-            Stopwatch sw = Stopwatch.StartNew();
-
+            string queryString = "microsoft";
+            List<(string, long)> results = new List<(string, long)>();
             int rounds = 1000;
-            for (int loop = 0; loop < rounds; loop++)
+
+            for (int i = 0; i < queryString.Length; i++)
             {
-                results2.Clear();
-                suggestionRadixtrie.FindAllChildTerms("a", 10, ref prefixCount2, "", results2);
+                //benchmark Ordinary Radix Trie
+                Stopwatch sw = Stopwatch.StartNew();
+                for (int loop = 0; loop < rounds; loop++)
+                {
+                    long prefixCount = 0;
+                    results.Clear();
+                    suggestionRadixtrie.FindAllChildTerms(queryString.Substring(0, i + 1), 10, ref prefixCount, "", results, false);
+                }
+                sw.Stop();
+                long time1 = sw.ElapsedMilliseconds;
+                Console.WriteLine("ordinary search " + queryString.Substring(0, i + 1) + " in " + ((double)time1 / (double)rounds).ToString("N6") + " ms");
+                //foreach ((string,long) result in results) Console.WriteLine(result.Item1+" "+result.Item2.ToString("N0"));
+
+
+                //benchmark Pruning Radix Trie
+                sw = Stopwatch.StartNew();
+                for (int loop = 0; loop < rounds; loop++)
+                {
+                    long prefixCount = 0;
+                    results.Clear();
+                    suggestionRadixtrie.FindAllChildTerms(queryString.Substring(0, i + 1), 10, ref prefixCount, "", results, true);
+                }
+                sw.Stop();
+                long time2 = sw.ElapsedMilliseconds;
+                Console.WriteLine("pruning search " + queryString.Substring(0, i + 1) + " in " + ((double)time2 / (double)rounds).ToString("N6") + " ms");
+                //foreach ((string,long) result in results) Console.WriteLine(result.Item1+" "+result.Item2.ToString("N0"));
+
+                Console.WriteLine(((double)time1 / (double)time2).ToString("N2") + " x faster");
             }
-            Console.WriteLine("search top-10 results for prefix 'a' in "+ suggestionRadixtrie.termCount.ToString("N0")+" terms in " + ((double)sw.ElapsedMilliseconds/(double)rounds).ToString("N2") + " ms");
-            foreach ((string,long) result in results2) Console.WriteLine(result.Item1+" "+result.Item2.ToString("N0"));
 
             Console.WriteLine("press key to exit.");
             Console.ReadKey();
@@ -334,7 +357,7 @@ namespace PruningRadixTrie
 
         static void Main(string[] args)
         {
-            test();      
+            Benchmark();      
         }
     }
 }
