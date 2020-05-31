@@ -43,7 +43,7 @@ pruningRadixTrie.AddTerm("microsoft", 1000);
 string prefix="micro";
 int topK=10;
 var results = pruningRadixTrie.GetTopkTermsForPrefix(prefix, topK, out long termFrequencyCountPrefix);
-foreach ((string term,long termFrequencyCount) in results) Console.WriteLine(term+" "+termFrequencyCount.ToString());
+foreach ((string term,long termFrequencyCount) in results) Console.WriteLine(term+" "+termFrequencyCount);
 ``` 
 **ReadTermsFromFile:** Deserialise the Pruning Radix Trie from disk for persistence.
 ``` 
