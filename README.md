@@ -34,7 +34,7 @@ While 36 ms for an autocomplete might seem fast enough for a single user, it bec
 ``` 
 AutocompleteRadixtrie suggestionRadixtrie = new AutocompleteRadixtrie();
 ``` 
-**AddTerm:** insert a term into the Pruning Radix Trie.
+**AddTerm:** insert a term and term frequency count into the Pruning Radix Trie. Frequency counts for same term are summed up
 ```
 suggestionRadixtrie.AddTerm("microsoft", 1000);
 ```
