@@ -28,16 +28,31 @@ The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie
 While 36 ms for an autocomplete might seem fast enough for a single user, it becomes insufficient when we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries are only feasible when powered by something much faster than an ordinary radix trie.
 
 
-### Operations: 
+### Usage: 
 
+**Create Object**
+``` 
+AutocompleteRadixtrie suggestionRadixtrie = new AutocompleteRadixtrie();
+``` 
 **AddTerm:** insert a term into the Pruning Radix Trie.
-
+```
+suggestionRadixtrie.AddTerm("microsoft", 1000);
+```
 **GetTopkTermsForPrefix:** retrieve the top-k most relevant terms for a given prefix from the Pruning Radix Trie.
-
-**WriteTermsToFile:** Serialise the Pruning Radix Trie to disk for persistence.
-
+``` 
+string prefix="micro";
+int topK=10;
+bool pruning=true;
+suggestionRadixtrie.GetTopkTermsForPrefix(prefix, topK, pruning);
+``` 
 **ReadTermsFromFile:** Deserialise the Pruning Radix Trie from disk for persistence.
-
+``` 
+suggestionRadixtrie.ReadTermsFromFile("terms.txt");
+```
+**WriteTermsToFile:** Serialise the Pruning Radix Trie to disk for persistence.
+``` 
+suggestionRadixtrie.WriteTermsToFile("terms.txt");
+```
 
 ### Dictionary
 
