@@ -32,26 +32,26 @@ While 36 ms for an autocomplete might seem fast enough for a single user, it bec
 
 **Create Object**
 ``` 
-AutocompleteRadixtrie suggestionRadixtrie = new AutocompleteRadixtrie();
+PruningRadixtrie pruningRadixTrie = new PruningRadixtrie();
 ``` 
 **AddTerm:** insert term and term frequency count into Pruning Radix Trie. Frequency counts for same term are summed up.
 ```
-suggestionRadixtrie.AddTerm("microsoft", 1000);
+pruningRadixTrie.AddTerm("microsoft", 1000);
 ```
 **GetTopkTermsForPrefix:** retrieve the top-k most relevant terms for a given prefix from the Pruning Radix Trie.
 ``` 
 string prefix="micro";
 int topK=10;
-bool pruning=true;
-suggestionRadixtrie.GetTopkTermsForPrefix(prefix, topK, pruning);
+var results = pruningRadixTrie.GetTopkTermsForPrefix(prefix, topK, out long termFrequencyCountPrefix);
+foreach ((string term,long termFrequencyCount) in results) Console.WriteLine(term+" "+termFrequencyCount.ToString("N0"));
 ``` 
 **ReadTermsFromFile:** Deserialise the Pruning Radix Trie from disk for persistence.
 ``` 
-suggestionRadixtrie.ReadTermsFromFile("terms.txt");
+pruningRadixTrie.ReadTermsFromFile("terms.txt");
 ```
 **WriteTermsToFile:** Serialise the Pruning Radix Trie to disk for persistence.
 ``` 
-suggestionRadixtrie.WriteTermsToFile("terms.txt");
+pruningRadixTrie.WriteTermsToFile("terms.txt");
 ```
 
 ### Dictionary
