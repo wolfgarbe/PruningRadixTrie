@@ -17,7 +17,7 @@ namespace PruningRadixTrie
         //Trie node class
         public class Node
         {
-            public List<(string, Node)> Children;
+            public List<(string key, Node node)> Children;
 
             //Does this node represent the last character in a word? 
             //0: no word; >0: is word (termFrequencyCount)
@@ -31,7 +31,7 @@ namespace PruningRadixTrie
         }
 
         //The trie
-        private Node trie;
+        private readonly Node trie;
 
         public PruningRadixtrie()
         {
@@ -45,7 +45,7 @@ namespace PruningRadixTrie
             AddTerm(trie, term, termFrequencyCount, 0, 0, nodeList);
         }
 
-        public void updateMaxCounts(List<Node> nodeList, long termFrequencyCount)
+        public void UpdateMaxCounts(List<Node> nodeList, long termFrequencyCount)
         {
             foreach (Node node in nodeList) if (termFrequencyCount > node.termFrequencyCountChildMax) node.termFrequencyCountChildMax = termFrequencyCount;
         }
@@ -58,26 +58,24 @@ namespace PruningRadixTrie
 
                 //test for common prefix (with possibly different suffix)
                 int common = 0;
-                string oldKey = "";
-                Node oldNode = new Node(0);
-                if (curr.Children != null) for (int j = 0; j < curr.Children.Count; j++)
+                if (curr.Children != null)
+                { 
+                    for (int j = 0; j < curr.Children.Count; j++)
                     {
-                        (string, Node) kvp = curr.Children[j];
-                        oldKey = kvp.Item1;
-                        oldNode = kvp.Item2;
+                        (string key, Node node) = curr.Children[j];
 
-                        for (int i = 0; i < Math.Min(term.Length, oldKey.Length); i++) if (term[i] == oldKey[i]) common = i + 1; else break;
+                        for (int i = 0; i < Math.Min(term.Length, key.Length); i++) if (term[i] == key[i]) common = i + 1; else break;
 
                         if (common > 0)
                         {
                             //term already existed
                             //existing ab
                             //new      ab
-                            if ((common == term.Length) && (common == oldKey.Length))
+                            if ((common == term.Length) && (common == key.Length))
                             {
-                                if (oldNode.termFrequencyCount == 0) termCount++;
-                                oldNode.termFrequencyCount += termFrequencyCount;
-                                updateMaxCounts(nodeList, oldNode.termFrequencyCount);
+                                if (node.termFrequencyCount == 0) termCount++;
+                                node.termFrequencyCount += termFrequencyCount;
+                                UpdateMaxCounts(nodeList, node.termFrequencyCount);
                             }
                             //new is subkey
                             //existing abcd
@@ -89,23 +87,24 @@ namespace PruningRadixTrie
                                 Node child = new Node(termFrequencyCount);
                                 child.Children = new List<(string, Node)>
                                 {
-                                   (oldKey.Substring(common), oldNode)
+                                   (key.Substring(common), node)
                                 };
-                                child.termFrequencyCountChildMax = Math.Max(oldNode.termFrequencyCountChildMax, oldNode.termFrequencyCount);
-                                updateMaxCounts(nodeList, termFrequencyCount);
+                                child.termFrequencyCountChildMax = Math.Max(node.termFrequencyCountChildMax, node.termFrequencyCount);
+                                UpdateMaxCounts(nodeList, termFrequencyCount);
 
                                 //insert first part as key, overwrite old node
                                 curr.Children[j] = (term.Substring(0, common), child);
+                                //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
+                                curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                                 //increment termcount by 1
                                 termCount++;
-
                             }
                             //if oldkey shorter (==common), then recursive addTerm (clause1)
                             //existing: te
                             //new:      test
-                            else if (common == oldKey.Length)
+                            else if (common == key.Length)
                             {
-                                AddTerm(oldNode, term.Substring(common), termFrequencyCount, id, level + 1, nodeList);
+                                AddTerm(node, term.Substring(common), termFrequencyCount, id, level + 1, nodeList);
                             }
                             //old and new have common substrings
                             //existing: test
@@ -116,25 +115,28 @@ namespace PruningRadixTrie
                                 Node child = new Node(0);//count       
                                 child.Children = new List<(string, Node)>
                                 {
-                                     (oldKey.Substring(common), oldNode) ,
+                                     (key.Substring(common), node) ,
                                      (term.Substring(common), new Node(termFrequencyCount))
                                 };
-                                child.termFrequencyCountChildMax = Math.Max(oldNode.termFrequencyCountChildMax, Math.Max(termFrequencyCount, oldNode.termFrequencyCount));
-                                updateMaxCounts(nodeList, termFrequencyCount);
+                                child.termFrequencyCountChildMax = Math.Max(node.termFrequencyCountChildMax, Math.Max(termFrequencyCount, node.termFrequencyCount));
+                                UpdateMaxCounts(nodeList, termFrequencyCount);
 
                                 //insert first part as key. overwrite old node
                                 curr.Children[j] = (term.Substring(0, common), child);
+                                //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
+                                curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                                 //increment termcount by 1 
                                 termCount++;
                             }
                             return;
                         }
                     }
+                }
 
                 // initialize dictionary if first key is inserted 
                 if (curr.Children == null)
                 {
-                    curr.Children = new List<(string, Node)> 
+                    curr.Children = new List<(string, Node)>
                         {
                             ( term, new Node(termFrequencyCount) )
                         };
@@ -142,16 +144,18 @@ namespace PruningRadixTrie
                 else
                 {
                     curr.Children.Add((term, new Node(termFrequencyCount)));
+                    //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
+                    curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                 }
                 termCount++;
-                updateMaxCounts(nodeList, termFrequencyCount);
+                UpdateMaxCounts(nodeList, termFrequencyCount);
             }
             catch (Exception e) { Console.WriteLine("exception: " + term + " " + e.Message); }
         }
 
         public void FindAllChildTerms(String prefix, int topK, ref long termFrequencyCountPrefix, string prefixString, List<(string term, long termFrequencyCount)> results, bool pruning)
         {
-            FindAllChildTerms(prefix, trie, topK, ref termFrequencyCountPrefix, prefixString, results, null,pruning);
+            FindAllChildTerms(prefix, trie, topK, ref termFrequencyCountPrefix, prefixString, results, null, pruning);
         }
 
         public void FindAllChildTerms(String prefix, Node curr, int topK, ref long termfrequencyCountPrefix, string prefixString, List<(string term, long termFrequencyCount)> results, System.IO.StreamWriter file, bool pruning)
@@ -159,47 +163,44 @@ namespace PruningRadixTrie
             try
             {
                 //pruning/early termination in radix trie lookup
-                if (pruning && (topK > 0) && (results.Count == topK) && (curr.termFrequencyCountChildMax <= results[topK - 1].Item2)) return;
+                if (pruning && (topK > 0) && (results.Count == topK) && (curr.termFrequencyCountChildMax <= results[topK - 1].termFrequencyCount)) return;
 
                 //test for common prefix (with possibly different suffix)
-                string oldKey = "";
-                Node oldNode = new Node(0);
                 bool noPrefix = string.IsNullOrEmpty(prefix);
 
-                if (curr.Children != null) foreach ((string, Node) kvp in curr.Children)
+                if (curr.Children != null)
+                {
+                    foreach ((string key, Node node) in curr.Children)
                     {
-
                         //pruning/early termination in radix trie lookup
-                        if (pruning && (topK > 0) && (results.Count == topK) && (kvp.Item2.termFrequencyCount <= results[topK - 1].termFrequencyCount) && (kvp.Item2.termFrequencyCountChildMax <= results[topK - 1].termFrequencyCount))
+                        if (pruning && (topK > 0) && (results.Count == topK) && (node.termFrequencyCount <= results[topK - 1].termFrequencyCount) && (node.termFrequencyCountChildMax <= results[topK - 1].termFrequencyCount))
                         {
                             if (!noPrefix) break; else continue;
                         }
 
-                        oldKey = kvp.Item1;
-                        oldNode = kvp.Item2;
-                        if (noPrefix || oldKey.StartsWith(prefix))
+                        if (noPrefix || key.StartsWith(prefix))
                         {
-                            if (oldNode.termFrequencyCount > 0)
+                            if (node.termFrequencyCount > 0)
                             {
-                                if (prefix == oldKey) termfrequencyCountPrefix = oldNode.termFrequencyCount;
+                                if (prefix == key) termfrequencyCountPrefix = node.termFrequencyCount;
 
-                                //candidate
-                                if (file != null) file.WriteLine(prefixString + oldKey + "\t" + oldNode.termFrequencyCount.ToString());
+                                //candidate                              
+                                if (file != null) file.WriteLine(prefixString + key + "\t" + node.termFrequencyCount.ToString());
                                 else
-                                if (topK > 0) AddTopKSuggestion(prefixString + oldKey, oldNode.termFrequencyCount, topK, ref results); else results.Add((prefixString + oldKey, oldNode.termFrequencyCount));
+                                if (topK > 0) AddTopKSuggestion(prefixString + key, node.termFrequencyCount, topK, ref results); else results.Add((prefixString + key, node.termFrequencyCount));                               
                             }
 
-                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms("", oldNode, topK, ref termfrequencyCountPrefix, prefixString + oldKey, results, file,pruning);
+                            if ((node.Children != null) && (node.Children.Count > 0)) FindAllChildTerms("", node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
                             if (!noPrefix) break;
                         }
-                        else if (prefix.StartsWith(oldKey))
+                        else if (prefix.StartsWith(key))
                         {
 
-                            if ((oldNode.Children != null) && (oldNode.Children.Count > 0)) FindAllChildTerms(prefix.Substring(oldKey.Length), oldNode, topK, ref termfrequencyCountPrefix, prefixString + oldKey, results, file,pruning);
+                            if ((node.Children != null) && (node.Children.Count > 0)) FindAllChildTerms(prefix.Substring(key.Length), node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
                             break;
                         }
                     }
-
+                }
             }
             catch (Exception e) { Console.WriteLine("exception: " + prefix + " " + e.Message); }
         }
