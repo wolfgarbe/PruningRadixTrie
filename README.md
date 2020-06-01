@@ -34,7 +34,7 @@ Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia
 
 ### Application:
 The PruningRadixTrie is perfect for auto-completion, query completion or any other prefix search in large dictionaries.
-While 36 ms for an auto-complete might seem fast enough for a **single user**, it becomes a completely different story if we have to serve **thousands of users in parallel**. Then autocomplete lookups in large dictionaries become only feasible when powered by something much faster than an ordinary radix trie.
+While 37 ms for an auto-complete might seem fast enough for a **single user**, it becomes a completely different story if we have to serve **thousands of users in parallel**. Then autocomplete lookups in large dictionaries become only feasible when powered by something much faster than an ordinary radix trie.
 
 ### Usage: 
 
