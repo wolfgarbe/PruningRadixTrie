@@ -17,7 +17,7 @@ The lookup acceleration is achieved by storing in each node the maximum rank of 
 
 ### Performance
 
-![Benchmark](https://miro.medium.com/max/1400/1*pbE25qHjArliCZVw8-wKNQ.png "Benchmark")
+![Benchmark](https://miro.medium.com/max/1400/1*HauBPEDRiwyQJ77OuJOj3g.png "Benchmark")
 <br><br>
 The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie.
 
