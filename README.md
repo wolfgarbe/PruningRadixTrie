@@ -1,7 +1,7 @@
 PruningRadixTrie<br> 
 [![MIT License](https://img.shields.io/github/license/wolfgarbe/pruningradixtrie.png)](https://github.com/wolfgarbe/PruningRadixTrie/blob/master/LICENSE)
 ========
-**PruningRadixTrie - a Radix trie on steroids**
+**PruningRadixTrie - a Radix trie on steroids** for prefix search & auto-complete
 
 The PruningRadixTrie is a novel data structure, derived from a radix trie - but 3 orders of magnitude faster.
 
