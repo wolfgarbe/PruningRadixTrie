@@ -171,12 +171,12 @@ namespace PruningRadixTrie
                 if (curr.Children != null)
                 {
                     foreach ((string key, Node node) in curr.Children)
-                    {
+                    {                     
                         //pruning/early termination in radix trie lookup
                         if (pruning && (topK > 0) && (results.Count == topK) && (node.termFrequencyCount <= results[topK - 1].termFrequencyCount) && (node.termFrequencyCountChildMax <= results[topK - 1].termFrequencyCount))
                         {
                             if (!noPrefix) break; else continue;
-                        }
+                        }                     
 
                         if (noPrefix || key.StartsWith(prefix))
                         {
