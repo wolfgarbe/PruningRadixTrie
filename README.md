@@ -25,7 +25,7 @@ While 36 ms for an autocomplete might seem fast enough for a single user, it bec
 
 ### Dictionary
 
-Terms.txt contains 6 million unigrams and bigrams derived from English Wikipedia, with term frequency counts used for ranking. But you can use any frequency dictionary for any language and domain of your choice.
+[Terms.txt](https://github.com/wolfgarbe/PruningRadixTrie/blob/master/PruningRadixTrie/terms.zip) contains 6 million unigrams and bigrams derived from English Wikipedia, with term frequency counts used for ranking. But you can use any frequency dictionary for any language and domain of your choice.
 
 ### Blog Posts
 [The Pruning Radix Trie — a Radix trie on steroids](https://medium.com/@wolfgarbe/the-pruning-radix-trie-a-radix-trie-on-steroids-412807f77abc)<br>
