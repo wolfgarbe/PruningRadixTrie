@@ -13,4 +13,10 @@
     <ProjectReference Include="..\PruingRadixTrie\PruingRadixTrie.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="terms.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

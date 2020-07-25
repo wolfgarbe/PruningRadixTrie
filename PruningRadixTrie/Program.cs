@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace PruningRadixTrie.Benchmark
 {
@@ -11,6 +12,10 @@ namespace PruningRadixTrie.Benchmark
         {
             Console.WriteLine("Load dictionary & create trie ...");
             PruningRadixtrie pruningRadixTrie = new PruningRadixtrie();
+            if (!File.Exists("terms.txt"))
+            {
+                ZipFile.ExtractToDirectory("terms.zip", ".");
+            }
             pruningRadixTrie.ReadTermsFromFile("terms.txt");
 
             Console.WriteLine("Benchmark started ...");
