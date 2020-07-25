@@ -2,7 +2,7 @@
 
 namespace PruningRadixTrie
 {
-    public partial class PruningRadixTrie
+    public partial class PruningRadixtrie
     {
         //Trie node class
         public class Node

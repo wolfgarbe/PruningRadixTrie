@@ -7,7 +7,7 @@ namespace PruningRadixTrie
     /// <summary>
     /// Summary description for Trie
     /// </summary>
-    public partial class PruningRadixTrie
+    public partial class PruningRadixtrie
     {
         public long termCount = 0;
         public long termCountLoaded = 0;
@@ -15,7 +15,7 @@ namespace PruningRadixTrie
         //The trie
         private readonly Node trie;
 
-        public PruningRadixTrie()
+        public PruningRadixtrie()
         {
             trie = new Node(0);
         }
@@ -239,7 +239,7 @@ namespace PruningRadixTrie
                         //process a single line at a time only for memory efficiency
                         while ((line = sr.ReadLine()) != null)
                         {
-                            string[] lineParts = line.Split("\t");
+                            string[] lineParts = line.Split('\t');
                             if (lineParts.Length == 2)
                             {
                                 if (Int64.TryParse(lineParts[1], out Int64 count))

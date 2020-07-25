@@ -10,7 +10,7 @@ namespace PruningRadixTrie.Benchmark
         public static void Benchmark()
         {
             Console.WriteLine("Load dictionary & create trie ...");
-            PruningRadixTrie pruningRadixTrie = new PruningRadixTrie();
+            PruningRadixtrie pruningRadixTrie = new PruningRadixtrie();
             pruningRadixTrie.ReadTermsFromFile("terms.txt");
 
             Console.WriteLine("Benchmark started ...");
