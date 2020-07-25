@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29403.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PruningRadixTrie.Benchmark", "PruningRadixTrie\PruningRadixTrie.Benchmark.csproj", "{1E6B319A-6418-4D8F-8903-ACBE4B5970EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruingRadixTrie", "PruingRadixTrie\PruingRadixTrie.csproj", "{9D8BB46F-5646-4496-AEDE-9C9BBC8C59A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruningRadixTrie", "PruingRadixTrie\PruningRadixTrie.csproj", "{9D8BB46F-5646-4496-AEDE-9C9BBC8C59A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
