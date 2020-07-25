@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PruingRadixTrie\PruningRadixTrie.csproj" />
+    <ProjectReference Include="..\PruningRadixTrie\PruningRadixTrie.csproj" />
   </ItemGroup>
 
   <ItemGroup>
