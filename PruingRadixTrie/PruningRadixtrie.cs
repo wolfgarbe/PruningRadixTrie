@@ -7,7 +7,7 @@ namespace PruningRadixTrie
     /// <summary>
     /// Summary description for Trie
     /// </summary>
-    public partial class PruningRadixtrie
+    public class PruningRadixTrie
     {
         public long termCount = 0;
         public long termCountLoaded = 0;
@@ -15,7 +15,7 @@ namespace PruningRadixTrie
         //The trie
         private readonly Node trie;
 
-        public PruningRadixtrie()
+        public PruningRadixTrie()
         {
             trie = new Node(0);
         }

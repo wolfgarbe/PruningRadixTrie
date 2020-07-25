@@ -11,7 +11,7 @@ namespace PruningRadixTrie.Benchmark
         public static void Benchmark()
         {
             Console.WriteLine("Load dictionary & create trie ...");
-            PruningRadixtrie pruningRadixTrie = new PruningRadixtrie();
+            PruningRadixTrie pruningRadixTrie = new PruningRadixTrie();
             if (!File.Exists("terms.txt"))
             {
                 ZipFile.ExtractToDirectory("terms.zip", ".");
