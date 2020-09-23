@@ -62,3 +62,6 @@ pruningRadixTrie.ReadTermsFromFile("terms.txt");
 pruningRadixTrie.WriteTermsToFile("terms.txt");
 ```
 
+---
+
+**PruningRadixTrie** is contributed by [**SeekStorm** - the high performance Search as a Service & search API](https://seekstorm.com)
