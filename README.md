@@ -62,6 +62,13 @@ pruningRadixTrie.ReadTermsFromFile("terms.txt");
 pruningRadixTrie.WriteTermsToFile("terms.txt");
 ```
 
+
+#### Ports
+The following third party ports or reimplementations to other programming languages have not been tested by myself whether they are an exact port, error free, provide identical results or are as fast as the original algorithm. 
+
+**Java**<br>
+https://github.com/benldr/JPruningRadixTrie<br>
+
 ---
 
 **PruningRadixTrie** is contributed by [**SeekStorm** - the high performance Search as a Service & search API](https://seekstorm.com)
