@@ -72,6 +72,9 @@ https://github.com/benldr/JPruningRadixTrie<br>
 **Python**<br>
 https://github.com/otto-de/PyPruningRadixTrie<br>
 
+**Rust**<br>
+https://github.com/peterall/pruning_radix_trie<br>
+
 ---
 
 **PruningRadixTrie** is contributed by [**SeekStorm** - the high performance Search as a Service & search API](https://seekstorm.com)
