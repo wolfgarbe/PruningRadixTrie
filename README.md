@@ -23,6 +23,8 @@ The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie
 
 While 36 ms for an autocomplete might seem fast enough for a single user, it becomes insufficient when we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries are only feasible when powered by something much faster than an ordinary radix trie.
 
+While a prefix of length=1 is not very useful for the Latin alphabet, it does make sense for CJK languages. Also, there are many more application fields for a prefix search algorithm than word completion: Insteal of character, the prefix can be composed of arbitrary items, e.g. towns in a long routing sequence.
+
 ### Dictionary
 
 [Terms.txt](https://github.com/wolfgarbe/PruningRadixTrie/blob/master/PruningRadixTrie.Benchmark/terms.zip) contains 6 million unigrams and bigrams derived from English Wikipedia, with term frequency counts used for ranking. But you can use any frequency dictionary for any language and domain of your choice.
