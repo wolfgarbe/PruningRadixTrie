@@ -21,7 +21,7 @@ The lookup acceleration is achieved by storing in each node the maximum rank of 
 <br><br>
 The **Pruning Radix Trie** is up to **1000x faster** than an ordinary Radix Trie.
 
-While 36 ms for an autocomplete might seem fast enough for a single user, it becomes insufficient when we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries are only feasible when powered by something much faster than an ordinary radix trie.
+While 37 ms for an autocomplete might seem fast enough for a single user, it becomes insufficient when we have to serve thousands of users in parallel. Then autocomplete lookups in large dictionaries are only feasible when powered by something much faster than an ordinary radix trie.
 
 While a prefix of length=1 is not very useful for the Latin alphabet, it does make sense for CJK languages. Also, there are many more application fields for a fast prefix search algorithm beyond character-wise word completion: Instead of characters, the prefix can be composed of arbitrary items, e.g. 
 whole words in a query completion, or towns in a long routing sequence.
@@ -68,6 +68,9 @@ pruningRadixTrie.WriteTermsToFile("terms.txt");
 
 ### Ports
 The following third party ports or reimplementations to other programming languages have not been tested by myself whether they are an exact port, error free, provide identical results or are as fast as the original algorithm. 
+
+**Go**<br>
+https://github.com/olympos-labs/pruning-radix-trie
 
 **Java**<br>
 https://github.com/benldr/JPruningRadixTrie<br>
