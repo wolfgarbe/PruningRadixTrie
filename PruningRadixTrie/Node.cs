@@ -5,7 +5,7 @@ namespace PruningRadixTrie
     //Trie node class
     public class Node
     {
-        public List<(string key, Node node)> Children;
+        public (string key, Node node)[] Children;
 
         //Does this node represent the last character in a word? 
         //0: no word; >0: is word (termFrequencyCount)
