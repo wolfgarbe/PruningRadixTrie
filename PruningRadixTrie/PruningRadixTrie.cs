@@ -42,7 +42,7 @@ namespace PruningRadixTrie
                 int common = 0;
                 if (curr.Children != null)
                 { 
-                    for (int j = 0; j < curr.Children.Count; j++)
+                    for (int j = 0; j < curr.Children.Length; j++)
                     {
                         (string key, Node node) = curr.Children[j];
 
@@ -67,7 +67,7 @@ namespace PruningRadixTrie
                             {
                                 //insert second part of oldKey as child 
                                 Node child = new Node(termFrequencyCount);
-                                child.Children = new List<(string, Node)>
+                                child.Children = new[]
                                 {
                                    (key.Substring(common), node)
                                 };
@@ -77,7 +77,7 @@ namespace PruningRadixTrie
                                 //insert first part as key, overwrite old node
                                 curr.Children[j] = (term.Substring(0, common), child);
                                 //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
-                                curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
+                                Array.Sort(curr.Children, (x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                                 //increment termcount by 1
                                 termCount++;
                             }
@@ -95,7 +95,7 @@ namespace PruningRadixTrie
                             {
                                 //insert second part of oldKey and of s as child 
                                 Node child = new Node(0);//count       
-                                child.Children = new List<(string, Node)>
+                                child.Children = new[]
                                 {
                                      (key.Substring(common), node) ,
                                      (term.Substring(common), new Node(termFrequencyCount))
@@ -106,7 +106,7 @@ namespace PruningRadixTrie
                                 //insert first part as key. overwrite old node
                                 curr.Children[j] = (term.Substring(0, common), child);
                                 //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
-                                curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
+                                Array.Sort(curr.Children, (x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                                 //increment termcount by 1 
                                 termCount++;
                             }
@@ -118,16 +118,19 @@ namespace PruningRadixTrie
                 // initialize dictionary if first key is inserted 
                 if (curr.Children == null)
                 {
-                    curr.Children = new List<(string, Node)>
-                        {
-                            ( term, new Node(termFrequencyCount) )
-                        };
+                    curr.Children = new[]
+                    {
+                        ( term, new Node(termFrequencyCount) )
+                    };
                 }
                 else
                 {
-                    curr.Children.Add((term, new Node(termFrequencyCount)));
+                    (string, Node)[] children = new (string, Node)[curr.Children.Length + 1];
+                    Array.Copy(curr.Children, children, curr.Children.Length);
+                    children[curr.Children.Length] = (term, new Node(termFrequencyCount));
+                    curr.Children = children;
                     //sort children descending by termFrequencyCountChildMax to start lookup with most promising branch
-                    curr.Children.Sort((x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
+                    Array.Sort(curr.Children, (x, y) => y.Item2.termFrequencyCountChildMax.CompareTo(x.Item2.termFrequencyCountChildMax));
                 }
                 termCount++;
                 UpdateMaxCounts(nodeList, termFrequencyCount);
@@ -172,13 +175,13 @@ namespace PruningRadixTrie
                                 if (topK > 0) AddTopKSuggestion(prefixString + key, node.termFrequencyCount, topK, ref results); else results.Add((prefixString + key, node.termFrequencyCount));                               
                             }
 
-                            if ((node.Children != null) && (node.Children.Count > 0)) FindAllChildTerms("", node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
+                            if ((node.Children != null) && (node.Children.Length > 0)) FindAllChildTerms("", node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
                             if (!noPrefix) break;
                         }
                         else if (prefix.StartsWith(key))
                         {
 
-                            if ((node.Children != null) && (node.Children.Count > 0)) FindAllChildTerms(prefix.Substring(key.Length), node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
+                            if ((node.Children != null) && (node.Children.Length > 0)) FindAllChildTerms(prefix.Substring(key.Length), node, topK, ref termfrequencyCountPrefix, prefixString + key, results, file, pruning);
                             break;
                         }
                     }
