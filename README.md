@@ -64,6 +64,14 @@ pruningRadixTrie.ReadTermsFromFile("terms.txt");
 pruningRadixTrie.WriteTermsToFile("terms.txt");
 ```
 
+### Official implementations
+
+**C#**<br>
+https://github.com/wolfgarbe/PruningRadixTrie
+
+**Rust**<br>
+https://github.com/wolfgarbe/pruning_radix_trie_rs
+
 
 ### Ports
 The following third party ports or reimplementations to other programming languages have not been tested by myself whether they are an exact port, error free, provide identical results or are as fast as the original algorithm. 
@@ -78,6 +86,7 @@ https://github.com/benldr/JPruningRadixTrie<br>
 https://github.com/otto-de/PyPruningRadixTrie<br>
 
 **Rust**<br>
+https://github.com/wolfgarbe/pruning_radix_trie_rs<br>
 https://github.com/peterall/pruning_radix_trie<br>
 
 ---
